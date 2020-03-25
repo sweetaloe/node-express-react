@@ -12,5 +12,5 @@ for i in range(1, 100):
 
 
 
-print(json.dumps({'x': x, 'y': [y, y2]}))
+print(json.dumps({'title': "Sin and Cos chart",'x': x, 'y': [y, y2]}))
 sys.stdout.flush()

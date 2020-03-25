@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import HighchartsReact from 'highcharts-react-official';
 import Highcharts from 'highcharts';
-
+require('highcharts/modules/exporting')(Highcharts);
+require('highcharts/modules/export-data')(Highcharts);
+require('highcharts/modules/offline-exporting')(Highcharts);
 
 export default class GraphComponent extends Component {
 
@@ -11,8 +13,12 @@ export default class GraphComponent extends Component {
 
         this.state = {
             chartOptions: {
+                title: {
+                },
+
                 chart: {
-                    type: 'spline'
+                    type: 'spline',
+                    zoomType: 'xy'
                 },
                 xAxis: {
                     categories: [],
@@ -20,6 +26,54 @@ export default class GraphComponent extends Component {
                 series: [
                     { data: [] }
                 ],
+
+                exporting: {
+                    enabled: true,
+                    buttons: {
+                        contextButton: {
+                            menuItems: [{
+                                text: 'Скачать PNG',
+                                onclick: function () {
+                                    this.exportChart({
+                                        type: 'image/png'
+                                    });
+                                }
+                            }, {
+                                text: 'Скачать JPEG',
+                                onclick: function () {
+                                    this.exportChart({
+                                        type: 'image/png'
+                                    });
+                                }
+                            },
+                            { separator: true },
+                            {
+                                text: 'Скачать JSON',
+                                style:{
+                                    fontSize:'20px'
+                                },
+                                onclick: function () {
+                                    this.exportChart({
+                                        type: 'image/png'
+                                    });
+                                },
+                            }],
+
+                            text: 'Скачать',
+
+                            style: {
+                                'stroke-width': 1,
+                                stroke: 'silver',
+                                height: 20,
+                                width: 70,
+                                fontSize: 20
+                            }
+
+                        }
+                    }
+
+
+                },
                 plotOptions: {
                     series: {
                         marker: {
@@ -40,6 +94,7 @@ export default class GraphComponent extends Component {
                 }
             }
         };
+
     }
 
     setHoverData = (e) => {
@@ -56,19 +111,26 @@ export default class GraphComponent extends Component {
             }
         })
             .then(res => {
-               
+
                 this.setState({
+
                     chartOptions: {
+                        title: {
+                            text: res.data.title
+                        },
+
                         xAxis: {
                             categories: res.data.x,
                         },
                         series: [
-                            { 
+                            {
                                 name: 'Sin',
-                                data: res.data.y[0] },
-                            { 
+                                data: res.data.y[0]
+                            },
+                            {
                                 name: 'Cos',
-                                data: res.data.y[1] }
+                                data: res.data.y[1]
+                            }
                         ]
                     }
                 });
@@ -79,19 +141,29 @@ export default class GraphComponent extends Component {
     }
 
 
+
     render() {
         const { chartOptions } = this.state;
 
         return (
+
             <div>
-                <h1 align="center"></h1>
+
+                <h1 ></h1>
+                <h4>Текст</h4>
+
+                <div class="btn-group">
+                    <button type="button" class="btn btn-success" onClick={this.updateSeries.bind(this)}>Построить график</button>
+
+                </div>
                 <h4 id="lol" align="center">Текст</h4>
-                <div align="center"><button type="button" class="btn btn-success" onClick={this.updateSeries.bind(this)}>Выполнить скрипт</button></div>
                 <HighchartsReact
                     highcharts={Highcharts}
                     options={chartOptions}
                 />
+
             </div>
+
         )
     }
 }
