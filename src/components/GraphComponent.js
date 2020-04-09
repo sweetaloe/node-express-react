@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import HighchartsReact from 'highcharts-react-official';
 import Highcharts from 'highcharts';
+require('highcharts/highcharts-more')(Highcharts);
 require('highcharts/modules/exporting')(Highcharts);
 require('highcharts/modules/export-data')(Highcharts);
 require('highcharts/modules/offline-exporting')(Highcharts);
@@ -12,17 +13,27 @@ export default class GraphComponent extends Component {
     constructor(props) {
         super(props);
 
-       
+
 
         this.state = {
-
+            dataType: "1",
 
             chartOptions: {
-                title: "",
+
+                title: {
+                    text: "График пока что пуст"
+                },
 
                 chart: {
                     type: 'spline',
-                    zoomType: 'xy'
+                    zoomType: 'xy',
+                    borderColor: '#222C35',
+                    borderWidth: 4,
+                    type: 'line',
+                    spacingLeft: 20,
+                    spacingRight: 20,
+                    spacingTop: 20,
+                    spacingBottom: 20
                 },
                 xAxis: {
                     categories: [],
@@ -100,7 +111,7 @@ export default class GraphComponent extends Component {
                             states: {
                                 hover: {
                                     enabled: true,
-                                    radius: 3
+                                    radius: 2
                                 }
                             }
                         },
@@ -124,38 +135,88 @@ export default class GraphComponent extends Component {
 
     updateSeries = () => {
 
-
-        axios.get('http://localhost:5000/graph', {
+        var link = 'http://localhost:5000/graph/' + this.state.dataType.toString()
+        var link2 = 'http://localhost:3000/graph/' + this.state.dataType.toString()
+        axios.get(link, {
             headers: {
-                'Access-Control-Allow-Origin': 'http://localhost:3000/graph'
+                'Access-Control-Allow-Origin': link2
             }
         })
             .then(res => {
 
+                if (this.state.dataType == "1" || this.state.dataType == "2")
+                    this.setState({
 
-                this.setState({
-
-                    chartOptions: {
-                        title: {
-                            text: res.data.title
-                        },
-
-                        xAxis: {
-                            categories: res.data.x,
-                        },
-                        series: [
-                            {
-                                name: 'Sin',
-                                data: res.data.y[0]
+                        chartOptions: {
+                            title: {
+                                text: res.data.title
                             },
-                            {
-                                name: 'Cos',
-                                data: res.data.y[1]
-                            }
-                        ]
-                    }
-                });
 
+                            xAxis: {
+                                categories: res.data.yearmonth
+                            },
+                            yAxis: {
+                                title: {
+                                    text: 'Sunspot number'
+                                }
+
+                            },
+                            tooltip: {
+                                crosshairs: true,
+                                shared: true
+                            },
+                            series: [
+
+                                {
+                                    name: 'Total Sunspot Number',
+                                    zIndex: 1,
+                                    data: res.data.totalSunspotNumber,
+
+                                }
+                            ]
+                        }
+                    });
+                else
+                    this.setState({
+
+                        chartOptions: {
+                            title: {
+                                text: res.data.title
+                            },
+
+                            xAxis: {
+                                categories: res.data.yearmonth
+                            },
+                            yAxis: {
+                                title: {
+                                    text: 'Sunspot number'
+                                }
+
+                            },
+                            tooltip: {
+                                crosshairs: true,
+                                shared: true
+                            },
+                            series: [
+
+                                {
+                                    name: 'Forecasted Value',
+                                    zIndex: 1,
+                                    data: res.data.forecastedValue,
+
+                                },
+                                {
+                                    type: 'arearange',
+                                    name: 'Uncertainty',
+                                    linkedTo: ':previous',
+                                    lineWidth: 0,
+                                    fillOpacity: 0.3,
+                                    zIndex: 0,
+                                    data: res.data.ranges
+                                }
+                            ]
+                        }
+                    });
             })
 
 
@@ -165,14 +226,16 @@ export default class GraphComponent extends Component {
         this.setState({
             chartOptions: {
                 title: {
-                    text: ""
+                    text: this.state.dataType.toString()
                 },
             }
         })
     }
 
     handleSelectChange = (e) => {
-        
+        this.setState({
+            dataType: e.target.value
+        })
 
     }
 
@@ -201,12 +264,35 @@ export default class GraphComponent extends Component {
                             </div>
                         </div>
                         <div class="col">
-                            <button id="startButton" type="button" class="btn btn-success" onClick={this.showVariant.bind(this)}>Построить график</button>
+                            <button id="startButton" type="button" class="btn btn-success" onClick={this.updateSeries.bind(this)}>Построить график</button>
                         </div>
                     </div>
+
+
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" id="customSwitch1" />
+                        <label class="custom-control-label" for="customSwitch1">Построить несколько данных на одном графике</label>
+                    </div>
+
+                    <div class="collapse" id="collapseExample">
+                        <div class="card card-body">
+                            <div class="row">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" />
+                                    <label class="form-check-label" for="inlineCheckbox1">Monthly mean total sunspot number</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" />
+                                    <label class="form-check-label" for="inlineCheckbox2">13-month smoothed monthly total sunspot number</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
-                <h4 id="lol" align="center">Текст</h4>
+
+
                 <HighchartsReact
                     highcharts={Highcharts}
                     options={chartOptions}
