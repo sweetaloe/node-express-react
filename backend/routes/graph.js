@@ -11,7 +11,7 @@ router.route('/graph/1').get((req, res) => {
     });
 
     var result = childProcess.output[1]
-    console.log(childProcess.output)
+
     res.send(JSON.parse(result))
 
 })
@@ -27,7 +27,7 @@ router.route('/graph/2').get((req, res) => {
     });
 
     var result = childProcess.output[1]
-    console.log(childProcess.output)
+
     res.send(JSON.parse(result))
 
 })
@@ -43,7 +43,7 @@ router.route('/graph/4').get((req, res) => {
     });
 
     var result = childProcess.output[1]
-    console.log(childProcess.output)
+
     res.send(JSON.parse(result))
 
 })
@@ -59,7 +59,7 @@ router.route('/graph/5').get((req, res) => {
     });
 
     var result = childProcess.output[1]
-    console.log(childProcess.output)
+
     res.send(JSON.parse(result))
 
 })
@@ -75,7 +75,7 @@ router.route('/graph/3').get((req, res) => {
     });
 
     var result = childProcess.output[1]
-    console.log(childProcess.output)
+
     res.send(JSON.parse(result))
 
 })
