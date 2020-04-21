@@ -134,9 +134,9 @@ export default class GraphComponent extends Component {
     }
 
     updateSeries = () => {
-
-        var link = 'http://localhost:5000/graph/' + this.state.dataType.toString()
-        var link2 = 'http://localhost:3000/graph/' + this.state.dataType.toString()
+        //http://localhost:5000
+        var link = 'https://ancient-headland-95376.herokuapp.com/graph/' + this.state.dataType.toString()
+        var link2 = 'https://ancient-headland-95376.herokuapp.com/graph/' + this.state.dataType.toString()
         axios.get(link, {
             headers: {
                 'Access-Control-Allow-Origin': link2
