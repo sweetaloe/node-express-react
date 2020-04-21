@@ -16,8 +16,8 @@ uncertainty = []
 yearmonth = []
 ranges = []
  
-
-for i in range(len(data_mas)):
+#len(data_mas)
+for i in range(10):
     s = data_mas[i]
     s = s.replace(':', '')
     mas = s.split(' ')
