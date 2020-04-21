@@ -1,116 +1,62 @@
 import React, { Component } from 'react'
-import Highcharts from 'highcharts';
-import HighchartsReact from 'highcharts-react-official';
-import img1 from '../pictures/download.svg'
-require('highcharts/modules/exporting')(Highcharts);
-require('highcharts/modules/export-data')(Highcharts);
-require('highcharts/modules/offline-exporting')(Highcharts);
+import image1 from '../pictures/img1.png'
+import image2 from '../pictures/img2.png'
+import image3 from '../pictures/img3.png'
 
 export default class MainComponent extends Component {
 
-
-    constructor(props) {
-        super(props);
-
-
-
-        this.state = {
-            chartOptions: {
-                title: {
-
-                },
-                exporting: {
-                    enabled: true,
-                    menuItemDefinitions: {
-                        // Custom definition
-                        downloadJSON: {
-                            onclick: function () {
-                                this.exportChart({
-                                    type: 'json'
-                                })
-                            },
-                            text: 'Скачать JSON'
-                        },
-                        downloadPNG: {
-                            text: 'Скачать PNG'
-                        },
-                        downloadJPEG: {
-                            text: 'Скачать JPEG'
-                        }
-
-
-                    },
-                    buttons: {
-                        
-                        contextButton: {
-         
-                            text: 'Сохранить',
-                            textsize:20,
-                            symbol: 'menu',
-                            symbolStroke: '#0aa0aa',
-                            menuItems: ['downloadPNG', 'downloadJPEG', 'separator', 'downloadJSON']
-                            
-                            
-                        }
-                    }
-                },
-                chart: {
-                    type: 'spline',
-                    zoomType: 'xy'
-                },
-                xAxis: {
-                    categories: ['h', 'o', 'h', 'o'],
-                },
-                series: [
-                    { data: [1, 2, 3, 4] }
-                ],
-            
-                plotOptions: {
-                    series: {
-                        marker: {
-                            enabled: false,
-                            states: {
-                                hover: {
-                                    enabled: true,
-                                    radius: 3
-                                }
-                            }
-                        },
-                        point: {
-                            events: {
-                                mouseOver: this.setHoverData.bind(this)
-                            }
-                        }
-                    }
-                }
-            }
-        };
-
-
-    }
-
-    setHoverData = (e) => {
-
-        this.setState({ hoverData: e.target.category })
-    }
-    updateSeries = () => {
-
-
-    }
     render() {
-
-        const { chartOptions } = this.state;
 
         return (
 
             <div>
-                <button type="button" class="btn btn-success" onClick={this.updateSeries.bind(this)}>Построить график</button>
-                <HighchartsReact
-                    highcharts={Highcharts}
-                    options={chartOptions}
-                />
+                <h4 class="mt-5"></h4>
 
+                <div class="mt-5">
+                    <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
+                            <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
+                            <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
+                        </ol>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src={image1} class="d-block w-100" alt="..." />
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>Активность солнца</h5>
+                                    <p>Графическое представление числа солнечных пятен за всё время наблюдений</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img src={image2} class="d-block w-100" alt="..." />
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>Предсказяния</h5>
+                                    <p>Визуализация предсказаний числа солнечных пятен, полученных различными методами </p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img src={image3} class="d-block w-100" alt="..." />
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>Используемые данные</h5>
+                                    <p>Данные предоставлены "Всемирным центром обработки данных" </p>
+                                    <p>WDC-SILSO, Royal Observatory of Belgium, Brussels</p>
+                                </div>
+                            </div>
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>
 
+                <h4 class="mt-5">Солнечные пятна</h4>
+                <p>Со́лнечные пя́тна — тёмные области на Солнце, температура которых понижена примерно на 1500 К по сравнению с окружающими участками фотосферы. Наблюдаются на диске Солнца (с помощью оптических приборов, а в случае крупных пятен — и невооружённым глазом) в виде тёмных пятен. Солнечные пятна являются областями выхода в фотосферу сильных (до нескольких тысяч гаусс) магнитных полей. Потемнение фотосферы в пятнах обусловлено подавлением магнитным полем конвективных движений вещества и, как следствие, снижением потока переноса тепловой энергии в этих областях.</p>
+                <p>Количество пятен на Солнце (и связанное с ним число Вольфа) — один из главных показателей солнечной магнитной активности</p>
             </div>
         )
     }

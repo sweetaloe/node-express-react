@@ -247,9 +247,9 @@ export default class GraphComponent extends Component {
             <div>
 
                 <h1 ></h1>
-                <h4>Графики какой то странной активности солнца или чего то ещё</h4>
+                <h4 class="mt-5 text-center">Визуализация данных</h4>
 
-                <div id="chooseDataForm">
+                <div id="chooseDataForm" class="mt-3">
                     <label for="exampleFormControlSelect1">Выберите данные</label>
                     <div class="form-row">
                         <div class="col-5">
@@ -276,28 +276,55 @@ export default class GraphComponent extends Component {
 
                     <div class="collapse" id="collapseExample">
                         <div class="card card-body">
+
                             <div class="row">
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" />
-                                    <label class="form-check-label" for="inlineCheckbox1">Monthly mean total sunspot number</label>
+
+                                <div class="col-6">
+
+                                    <label class="" for="databox1">Данные</label>
+                                    <div id="databox1">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" />
+                                            <label class="form-check-label" for="inlineCheckbox1">Monthly mean total sunspot number</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" />
+                                            <label class="form-check-label" for="inlineCheckbox2">13-month smoothed monthly total sunspot number</label>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" />
-                                    <label class="form-check-label" for="inlineCheckbox2">13-month smoothed monthly total sunspot number</label>
+
+                                <div class="col-6">
+                                    <label class="" for="databox2">Предсказания</label>
+                                    <div id="databox2">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3" />
+                                            <label class="form-check-label" for="inlineCheckbox3">Standard method prediction (Kalman)</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="inlineCheckbox4" value="option4" />
+                                            <label class="form-check-label" for="inlineCheckbox4">Combined method prediction (Kalman)</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="inlineCheckbox5" value="option5" />
+                                            <label class="form-check-label" for="inlineCheckbox5">McNish & Lincoln method prediction (Kalman)</label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
 
                 </div>
 
+                <div class="mt-5">
 
-
-                <HighchartsReact
-                    highcharts={Highcharts}
-                    options={chartOptions}
-                />
-
+                    <HighchartsReact
+                        highcharts={Highcharts}
+                        options={chartOptions}
+                    />
+                </div>
             </div>
 
         )
