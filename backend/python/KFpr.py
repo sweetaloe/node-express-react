@@ -17,7 +17,7 @@ yearmonth = []
 ranges = []
  
 #len(data_mas)
-for i in range(10):
+for i in range(5):
     s = data_mas[i]
     s = s.replace(':', '')
     mas = s.split(' ')
