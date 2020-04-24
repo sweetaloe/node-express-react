@@ -14,7 +14,6 @@ export default class GraphComponent extends Component {
         super(props);
 
 
-
         this.state = {
             dataType: "1",
 
@@ -129,18 +128,17 @@ export default class GraphComponent extends Component {
 
 
     setHoverData = (e) => {
-
         this.setState({ hoverData: e.target.category })
     }
 
     updateSeries = () => {
-        //http://localhost:5000
-        var link = 'http://localhost:5000/graph/' + this.state.dataType.toString()
-        var link2 = 'http://localhost:3000/graph/' + this.state.dataType.toString()
+        var link = 'http://localhost:5000/graph/plot'
+        var link2 = 'http://localhost:3000/graph/plot'
         axios.get(link, {
             headers: {
                 'Access-Control-Allow-Origin': link2
-            }
+            },
+            params: { 'a': this.state.dataType }
         })
             .then(res => {
 
@@ -151,7 +149,6 @@ export default class GraphComponent extends Component {
                             title: {
                                 text: res.data.title
                             },
-
                             xAxis: {
                                 categories: res.data.yearmonth
                             },
@@ -159,31 +156,26 @@ export default class GraphComponent extends Component {
                                 title: {
                                     text: 'Sunspot number'
                                 }
-
                             },
                             tooltip: {
                                 crosshairs: true,
                                 shared: true
                             },
                             series: [
-
                                 {
                                     name: 'Total Sunspot Number',
                                     zIndex: 1,
-                                    data: res.data.totalSunspotNumber,
-
+                                    data: res.data.value,
                                 }
                             ]
                         }
                     });
                 else
                     this.setState({
-
                         chartOptions: {
                             title: {
                                 text: res.data.title
                             },
-
                             xAxis: {
                                 categories: res.data.yearmonth
                             },
@@ -191,19 +183,16 @@ export default class GraphComponent extends Component {
                                 title: {
                                     text: 'Sunspot number'
                                 }
-
                             },
                             tooltip: {
                                 crosshairs: true,
                                 shared: true
                             },
                             series: [
-
                                 {
                                     name: 'Forecasted Value',
                                     zIndex: 1,
-                                    data: res.data.forecastedValue,
-
+                                    data: res.data.value,
                                 },
                                 {
                                     type: 'arearange',
@@ -218,8 +207,6 @@ export default class GraphComponent extends Component {
                         }
                     });
             })
-
-
     }
 
     showVariant = () => {
@@ -234,9 +221,36 @@ export default class GraphComponent extends Component {
 
     handleSelectChange = (e) => {
         this.setState({
-            dataType: e.target.value
+            dataType: (e.target.value)
         })
+    }
+    handleToggleChange = (e) => {
+        var select = document.getElementById("exampleFormControlSelect1")
+        if (e.target.checked) {
+            select.disabled = true
+            this.setState({
+                dataType: ''
+            })
+        }
+        else {
+            select.disabled = false
+            this.setState({
+                dataType: select.value
+            })
+        }
 
+    }
+    handleCheckboxClick = (e) => {
+        if (e.target.checked)
+            this.setState({
+                dataType: this.state.dataType + e.target.value
+            })
+        else {
+            var a = this.state.dataType.replace(e.target.value, '')
+            this.setState({
+                dataType: a
+            })
+        }
     }
 
     render() {
@@ -270,7 +284,7 @@ export default class GraphComponent extends Component {
 
 
                     <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" id="customSwitch1" />
+                        <input type="checkbox" class="custom-control-input" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" id="customSwitch1" onClick={this.handleToggleChange.bind(this)} />
                         <label class="custom-control-label" for="customSwitch1">Построить несколько данных на одном графике</label>
                     </div>
 
@@ -284,11 +298,11 @@ export default class GraphComponent extends Component {
                                     <label class="" for="databox1">Данные</label>
                                     <div id="databox1">
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" />
+                                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="1" onClick={this.handleCheckboxClick.bind(this)} />
                                             <label class="form-check-label" for="inlineCheckbox1">Monthly mean total sunspot number</label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" />
+                                            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="2" onClick={this.handleCheckboxClick.bind(this)} />
                                             <label class="form-check-label" for="inlineCheckbox2">13-month smoothed monthly total sunspot number</label>
                                         </div>
                                     </div>
@@ -298,15 +312,15 @@ export default class GraphComponent extends Component {
                                     <label class="" for="databox2">Предсказания</label>
                                     <div id="databox2">
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3" />
+                                            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="3" onClick={this.handleCheckboxClick.bind(this)} />
                                             <label class="form-check-label" for="inlineCheckbox3">Standard method prediction (Kalman)</label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="checkbox" id="inlineCheckbox4" value="option4" />
+                                            <input class="form-check-input" type="checkbox" id="inlineCheckbox4" value="4" onClick={this.handleCheckboxClick.bind(this)} />
                                             <label class="form-check-label" for="inlineCheckbox4">Combined method prediction (Kalman)</label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="checkbox" id="inlineCheckbox5" value="option5" />
+                                            <input class="form-check-input" type="checkbox" id="inlineCheckbox5" value="5" onClick={this.handleCheckboxClick.bind(this)} />
                                             <label class="form-check-label" for="inlineCheckbox5">McNish & Lincoln method prediction (Kalman)</label>
                                         </div>
                                     </div>
