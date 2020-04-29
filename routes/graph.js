@@ -13,10 +13,11 @@ function GetData(num) {
     return childProcess.output[1]
 }
 
-router.route('/graph/plot').get((req, res) => {
+router.route('/plot').get((req, res) => {
     var h = req.query
     console.log(h.data)
     res.send(JSON.parse(GetData(h.data)))
 })
+
 
 module.exports = router

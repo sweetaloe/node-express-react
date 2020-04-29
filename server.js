@@ -9,7 +9,8 @@ app.use(express.json())
 
 console.log(process.env.PORT)
 const graphRouter = require('./routes/graph')
-app.use('/', graphRouter)
+
+app.use('/graph', graphRouter)
 
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static('client/build'))
