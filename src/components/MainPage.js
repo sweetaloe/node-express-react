@@ -3,7 +3,7 @@ import image1 from '../pictures/img1.png'
 import image2 from '../pictures/img2.png'
 import image3 from '../pictures/img3.png'
 
-export default class MainComponent extends Component {
+export default class MainPage extends Component {
 
     render() {
 

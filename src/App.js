@@ -9,8 +9,8 @@ import 'bootstrap/dist/js/bootstrap.js'
 
 import Navbar from "./components/Navbar"
 import Footer from "./components/Footer"
-import MainComponent from "./components/MainComponent"
-import GraphComponent from "./components/GraphComponent"
+import MainPage from "./components/MainPage"
+import VisualisationPage from "./components/VisualisationPage"
 
 function App() {
   return (
@@ -18,8 +18,8 @@ function App() {
       <div className="container">
  
         <Navbar />
-        <Route path="/" exact component={MainComponent} />
-        <Route path="/graph" exact component={GraphComponent} />
+        <Route path="/" exact component={MainPage} />
+        <Route path="/graph" exact component={VisualisationPage} />
         <Footer />
       </div>
     </Router>

@@ -8,14 +8,15 @@ function GetData(num) {
         stdio: 'pipe',
         encoding: 'utf-8'
     });  
+    
     console.log(childProcess.output[1])
     return childProcess.output[1]
 }
 
 router.route('/graph/plot').get((req, res) => {
     var h = req.query
-    
-    res.send(JSON.parse(GetData(h.a)))
+    console.log(h.data)
+    res.send(JSON.parse(GetData(h.data)))
 })
 
 module.exports = router
