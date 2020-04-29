@@ -140,11 +140,11 @@ export default class VisualisationPage extends Component {
     updateSeries = (graphType) => {
         var link = 'http://localhost:5000/graph/plot'
         var link2 = 'http://localhost:3000/graph/plot'
-
-        axios.get(link, {
-            headers: {
-                'Access-Control-Allow-Origin': link2
-            },
+//headers: {
+//    'Access-Control-Allow-Origin': link2
+//},
+        axios.get('/graph/plot', {
+        
             params: { 'data': graphType }
         })
             .then(res => {
