@@ -138,8 +138,7 @@ export default class VisualisationPage extends Component {
     }
 
     updateSeries = (graphType) => {
-        var link = 'http://localhost:5000/graph/plot'
-        var link2 = 'http://localhost:3000/graph/plot'
+
 //headers: {
 //    'Access-Control-Allow-Origin': link2
 //},
