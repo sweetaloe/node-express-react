@@ -16,7 +16,6 @@ function App() {
   return (
     <Router>
       <div className="container">
- 
         <Navbar />
         <Route path="/" exact component={MainPage} />
         <Route path="/graph" exact component={VisualisationPage} />
