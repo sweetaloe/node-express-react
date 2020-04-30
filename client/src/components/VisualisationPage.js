@@ -8,10 +8,7 @@ require('highcharts/modules/export-data')(Highcharts);
 require('highcharts/modules/offline-exporting')(Highcharts);
 
 
-
 export default class VisualisationPage extends Component {
-
-
     constructor(props) {
         super(props);
 
@@ -75,21 +72,22 @@ export default class VisualisationPage extends Component {
                                 },
                                 onclick: function () {
 
-                                    axios.get('http://localhost:5000/graph/plot', {
-                                        headers: {
-                                            'Access-Control-Allow-Origin': 'http://localhost:3000/graph/plot'
-                                        }
-                                    })
-                                        .then(res => {
+                                    var { title, series } = this.state.chartOptions;
 
-                                            const url = window.URL.createObjectURL(new Blob([JSON.stringify(res)]));
-                                            const link = document.createElement('a');
-                                            link.href = url;
-                                            link.setAttribute('download', `${res.data.title}.json`);  // 3. Append to html page
-                                            document.body.appendChild(link);
-                                            link.click();
-                                            link.parentNode.removeChild(link);
-                                        })
+                                    var json = JSON.stringify({
+                                        title: title.text,
+                                        dataName: series.name,
+                                        data: series.data
+                                    });
+
+                                    const url = window.URL.createObjectURL(new Blob([JSON.stringify(json)]));
+                                    const link = document.createElement('a');
+                                    link.href = url;
+                                    link.setAttribute('download', `${title.text}.json`);
+                                    document.body.appendChild(link);
+                                    link.click();
+                                    link.parentNode.removeChild(link);
+
                                 }
                             }
                             ],
@@ -132,23 +130,18 @@ export default class VisualisationPage extends Component {
 
     }
 
-
     setHoverData = (e) => {
         this.setState({ hoverData: e.target.category })
     }
 
     updateSeries = (graphType) => {
 
-//headers: {
-//    'Access-Control-Allow-Origin': link2
-//},
         axios.get('/graph/plot', {
-        
+
             params: { 'data': graphType }
         })
             .then(res => {
                 let { series } = this.state.chartOptions;
-
 
                 series.push({
                     name: res.data.title,
