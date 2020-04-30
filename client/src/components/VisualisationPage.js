@@ -14,7 +14,6 @@ export default class VisualisationPage extends Component {
 
         this.state = {
 
-
             chartOptions: {
 
                 title: {
@@ -72,30 +71,48 @@ export default class VisualisationPage extends Component {
                                 },
                                 onclick: function () {
 
-                                    var { title, series } = this.state.chartOptions;
+                                    var graphType = [];
+                                    var grID = 0
 
-                                    var graphs = []
-                                    for (var i = 0; i < series.length; i++) {
-                                        graphs.push({
-                                            'dataName': series[i].name,
-                                            'data': series[i].data
-                                        })
+                                    for (var i = 0; i < this.series.length; i++) {
+                                        grID = this.series[i].options.id
+                                        if (grID < 6)
+                                            graphType.push(grID)
                                     }
 
+                                    var dataJson = {
+                                        title: "Sunspot number",
+                                        charts: []
+                                    }
 
-                                    var json = {
-                                        'title': title.text,
-                                        'graphs': graphs
-                                    };
+                                    var promises = []
+                                    for (var i = 0; i < graphType.length; i++) {
+                                        promises.push(
+                                            axios.get('/graph/plot', {
+                                                params: { 'data': graphType[i] }
+                                            })
+                                                .then(res => {
+                                                    dataJson.charts.push(
+                                                        {
+                                                            name: res.data.title,
+                                                            dataType: res.data.titleY,
+                                                            data: res.data.values
+                                                        }
+                                                    )
+                                                })
+                                        )
+                                    }
 
-                                    const url = window.URL.createObjectURL(new Blob([JSON.stringify(json)]));
-                                    const link = document.createElement('a');
-                                    link.href = url;
-                                    link.setAttribute('download', `${title.text}.json`);
-                                    document.body.appendChild(link);
-                                    link.click();
-                                    link.parentNode.removeChild(link);
-
+                                    Promise.all(promises).then(() => {
+                                        console.log("все промисы отработали")
+                                        const url = window.URL.createObjectURL(new Blob([JSON.stringify(dataJson)]));
+                                        const link = document.createElement('a');
+                                        link.href = url;
+                                        link.setAttribute('download', `${dataJson.title}.json`);
+                                        document.body.appendChild(link);
+                                        link.click();
+                                        link.parentNode.removeChild(link);
+                                    })
                                 }
                             }
                             ],
@@ -187,12 +204,12 @@ export default class VisualisationPage extends Component {
 
 
     addSeries = (graphType) => {
-        console.log(graphType)
+
         this.updateSeries(graphType)
     }
 
     deleteSeries = (graphType) => {
-        console.log(graphType + "De")
+
         let { title, series } = this.state.chartOptions;
         var newseries = series.filter(item => item.id != graphType);
         if (graphType != 1 && graphType != 2)
