@@ -74,11 +74,19 @@ export default class VisualisationPage extends Component {
 
                                     var { title, series } = this.state.chartOptions;
 
-                                    var json = JSON.stringify({
-                                        title: title.text,
-                                        dataName: series.name,
-                                        data: series.data
-                                    });
+                                    var graphs = []
+                                    for (var i = 0; i < series.length; i++) {
+                                        graphs.push({
+                                            'dataName': series[i].name,
+                                            'data': series[i].data
+                                        })
+                                    }
+
+
+                                    var json = {
+                                        'title': title.text,
+                                        'graphs': graphs
+                                    };
 
                                     const url = window.URL.createObjectURL(new Blob([JSON.stringify(json)]));
                                     const link = document.createElement('a');
