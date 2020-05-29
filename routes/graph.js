@@ -14,9 +14,8 @@ function GetData(num) {
 }
 
 router.route('/plot').get((req, res) => {
-    var h = req.query
-    console.log(h.data)
-    res.send(JSON.parse(GetData(h.data)))
+
+    res.send(JSON.parse(GetData(req.query.data)))
 })
 
 

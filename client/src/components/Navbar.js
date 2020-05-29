@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { Button } from 'react-bootstrap'
+
 
 export default class Navbar extends Component {
 
@@ -17,7 +17,7 @@ export default class Navbar extends Component {
                             <Link to="/graph" className="nav-link">Визуализация</Link>
                         </li>
                         <li className="navbar-item">
-                            <Link to="/about" className="nav-link">О нас</Link>
+                            <Link to="/about" className="nav-link">О проекте</Link>
                         </li>
                       
                     </ul>

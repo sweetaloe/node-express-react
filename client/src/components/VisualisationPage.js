@@ -13,7 +13,6 @@ export default class VisualisationPage extends Component {
         super(props);
 
         this.state = {
-
             chartOptions: {
 
                 title: {
@@ -30,8 +29,6 @@ export default class VisualisationPage extends Component {
                     spacingRight: 20,
                     spacingTop: 20,
                     spacingBottom: 20
-                },
-                xAxis: {
                 },
                 yAxis: {
                     title: {
@@ -142,12 +139,7 @@ export default class VisualisationPage extends Component {
                                     radius: 1
                                 }
                             }
-                        },
-                        point: {
-                            events: {
-                                mouseOver: this.setHoverData.bind(this)
-                            }
-                        }
+                        } 
                     }
                 }
             }
@@ -155,9 +147,7 @@ export default class VisualisationPage extends Component {
 
     }
 
-    setHoverData = (e) => {
-        this.setState({ hoverData: e.target.category })
-    }
+
 
     updateSeries = (graphType) => {
 
