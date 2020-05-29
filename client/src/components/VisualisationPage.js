@@ -56,7 +56,7 @@ export default class VisualisationPage extends Component {
                                 text: 'Скачать JPEG',
                                 onclick: function () {
                                     this.exportChart({
-                                        type: 'image/png'
+                                        type: 'image/jpeg'
                                     });
                                 }
                             },
