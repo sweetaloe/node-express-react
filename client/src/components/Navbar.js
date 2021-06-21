@@ -14,10 +14,10 @@ export default class Navbar extends Component {
                             <Link to="/" className="nav-link"></Link>
                         </li>
                         <li className="navbar-item">
-                            <Link to="/graph" className="nav-link">Визуализация</Link>
+                            <Link to="/add" className="nav-link">Добавление</Link>
                         </li>
                         <li className="navbar-item">
-                            <Link to="/about" className="nav-link">О проекте</Link>
+                            <Link to="/redact" className="nav-link">Редактирование</Link>
                         </li>
                       
                     </ul>

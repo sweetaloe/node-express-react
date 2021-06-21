@@ -1,69 +1,74 @@
 import React, { Component } from 'react'
-import image1 from '../pictures/img1.png'
-import image2 from '../pictures/img2.png'
-import image3 from '../pictures/img3.png'
+import TableComponent from './Show/TableComponent';
+import { Tab, Spinner, TabContainer, ListGroup, ListGroupItem, Col, Row, Form, Button } from 'react-bootstrap';
+import axios from 'axios'
 
 export default class MainPage extends Component {
+    constructor(props) {
+        super(props);
 
+        this.state = {
+            client: this.props.data.client,
+            order: this.props.data.order,
+            cake: this.props.data.cake,
+            decoration: this.props.data.decoration,
+            filling: this.props.data.filling,
+            isready: true
+        }
+    }
+
+    componentDidMount() {
+        this.setState({
+            client: this.props.data.client,
+            order: this.props.data.order,
+            cake: this.props.data.cake,
+            decoration: this.props.data.decoration,
+            filling: this.props.data.filling,
+            isready: true
+        })
+    }
+    
     render() {
-
         return (
 
             <div>
-                <h4 class="mt-5"></h4>
-
+                <h1 ></h1>
+                <h4 class="mt-4 text-center">База данных</h4>
                 <div class="mt-5">
-                    <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
-                        <ol class="carousel-indicators">
-                            <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
-                            <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
-                            <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
-                        </ol>
-                        <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <img src={image1} class="d-block w-100" alt="..." />
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5>Активность солнца</h5>
-                                    <p>Графическое представление числа солнечных пятен за всё время наблюдений</p>
-                                </div>
-                            </div>
-                            <div class="carousel-item">
-                                <img src={image2} class="d-block w-100" alt="..." />
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5>Предсказяния</h5>
-                                    <p>Визуализация предсказаний числа солнечных пятен, полученных различными методами </p>
-                                </div>
-                            </div>
-                            <div class="carousel-item">
-                                <img src={image3} class="d-block w-100" alt="..." />
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5>Используемые данные</h5>
-                                    <p>Данные предоставлены "Всемирным центром обработки данных" </p>
-                                    <p>WDC-SILSO, Royal Observatory of Belgium, Brussels</p>
-                                </div>
-                            </div>
-                        </div>
-                        <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                        <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span>
-                        </a>
-                    </div>
+                    <Tab.Container defaultActiveKey="#clients" >
+                        <Row>
+                            <Col sm={2}>
+                                <ListGroup>
+                                    <ListGroup.Item action href="#clients" >Клиенты</ListGroup.Item>
+                                    <ListGroup.Item action href="#orders" >Заказы</ListGroup.Item>
+                                    <ListGroup.Item action href="#cakes" >Торты</ListGroup.Item>
+                                    <ListGroup.Item action href="#decorations" >Декорации</ListGroup.Item>
+                                    <ListGroup.Item action href="#filling" >Начинка</ListGroup.Item>
+                                </ListGroup>
+                            </Col>
+                            <Col sm={10}>
+                                <Tab.Content>
+                                    <Tab.Pane eventKey="#clients" >
+                                        <TableComponent name="Клиенты" data={this.state.client} />
+                                    </Tab.Pane>
+                                    <Tab.Pane eventKey="#orders">
+                                        <TableComponent name="Заказы" data={this.state.order} />
+                                    </Tab.Pane>
+                                    <Tab.Pane eventKey="#cakes">
+                                        <TableComponent name="Торты" data={this.state.cake} />
+                                    </Tab.Pane>
+                                    <Tab.Pane eventKey="#decorations">
+                                        <TableComponent name="Декорации" data={this.state.decoration} />
+                                    </Tab.Pane>
+                                    <Tab.Pane eventKey="#filling">
+                                        <TableComponent name="Наполнение" data={this.state.filling} />
+                                    </Tab.Pane>
+                                </Tab.Content>
+                            </Col>
+                        </Row>
+                    </Tab.Container>
                 </div>
-
-                <h4 class="mt-5">Солнечная активность</h4>
-                
-                <p>Активность Солнца не остаётся постоянной и меняется с течением времени, сохраняя определённые периодические закономерности. Такие изменения во многих аспектах влияют на современную жизнь. </p>
-                
-                <p>Повышение активности приводит к увеличению ультрафиолетового и рентгеновского излучений, оказывающих сильное воздействие в верхних слоях атмосферы. Последующее за этим увеличение температуры и плотности атмосферы приводит к сокращению срока службы искусственных спутников. Увеличение количества солнечных вспышек и выбросов корональной массы повышает вероятность повреждения чувствительных космических приборов, а также увеличивает опасность для здоровья космонавтов и пилотов, совершающих полёты по полярным маршрутам на большой высоте.</p>
-                <p>Кроме этого, солнечная активность оказывает влияние и на земной климат. Несмотря на то, что изменение общей солнечной радиации слишком мало для того, чтобы быть причиной значительных изменений, существуют доказательства, свидетельствующие о связи солнечной активности с нагревом и охлаждением атмосферы.</p>
-                <p class="lead"> Влияние Солнца на нашу жизнь в современных реалиях является существенным, а значит наблюдение, сбор, отображение и обработка информации, связанной с солнечной активностью, являются актуальными практическими задачами.</p>
-                
-
-            </div>
+            </div >
         )
     }
 }
